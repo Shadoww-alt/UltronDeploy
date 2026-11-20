@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with authentication and trial metadata",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "isGuest": { "type": "boolean" },
+        "guestTrialStartedAt": { "type": "number" },
+        "guestTrialExpiresAt": { "type": "number" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["uid", "isGuest", "createdAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "User conversation thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "isPinned": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "title", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A single message in a conversation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "userId": { "type": "string" },
+        "sender": { "type": "string", "enum": ["USER", "ULTRON"] },
+        "content": { "type": "string" },
+        "thinkingText": { "type": "string" },
+        "modelUsed": { "type": "string" },
+        "isOffline": { "type": "boolean" },
+        "actionTriggered": { "type": "string" },
+        "actionLabel": { "type": "string" },
+        "actionPayload": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "conversationId", "userId", "sender", "content", "timestamp"]
+    },
+    "ProductivityTask": {
+      "title": "ProductivityTask",
+      "description": "A productivity item, project, or task",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["Task", "Learning", "Project", "Note"] },
+        "isCompleted": { "type": "boolean" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "title", "category", "isCompleted", "createdAt", "updatedAt"]
+    },
+    "UserSettings": {
+      "title": "UserSettings",
+      "description": "User preferences and cloud configuration",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "operatingMode": { "type": "string", "enum": ["ONLINE", "OFFLINE", "AUTO"] },
+        "geminiModel": { "type": "string" },
+        "thinkingMode": { "type": "boolean" },
+        "personalityTone": { "type": "string", "enum": ["CASUAL_WIT", "BALANCED_SMART", "DEEP_MENTOR", "SERIOUS_WORK"] },
+        "autoSpeak": { "type": "boolean" },
+        "speechRate": { "type": "number" },
+        "speechPitch": { "type": "number" },
+        "cloudSyncKey": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "operatingMode", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "User account and trial profile"
+    },
+    "/users/{userId}/conversations/{conversationId}": {
+      "schema": { "$ref": "Conversation" },
+      "description": "User conversations"
+    },
+    "/users/{userId}/conversations/{conversationId}/messages/{messageId}": {
+      "schema": { "$ref": "ChatMessage" },
+      "description": "Messages inside a conversation"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": { "$ref": "ProductivityTask" },
+      "description": "User productivity tasks"
+    },
+    "/users/{userId}/settings/preferences": {
+      "schema": { "$ref": "UserSettings" },
+      "description": "User app settings and assistant preferences"
+    }
+  }
+}

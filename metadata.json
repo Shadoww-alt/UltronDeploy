@@ -1,0 +1,6 @@
+{
+  "name": "Ultron AI",
+  "description": "Cross-platform smart voice assistant with quantum neural core, cloud data synchronization, and full responsiveness across mobile, tablet, laptop, and PC.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
